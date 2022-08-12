@@ -60,6 +60,7 @@ export default function History({navigation}) {
    setPendingPickup(e);
   }
   const pickupPayload=(e)=>{
+    console.log(e)
     if(e.length>0){
       setPendingPickup(e);
     }
@@ -71,7 +72,7 @@ export default function History({navigation}) {
       method:'GET',
       url:`${api.localUrl}${api.assignment}?populate=pmlParcel,terminalTo&status=CONFIRMED`,
        headers:{
-         Authorization:' Bearer ' + appAuth.token,
+         Authorization:' Bearer '+ appAuth.token,
          'Cache-Control': 'no-cache',
        }
     }
@@ -79,9 +80,9 @@ export default function History({navigation}) {
     if(dateQuery){
       pickupObject.url+=`&${dateQuery}`;
      }else{
-      pickupObject.url+=`&createdAt?=${currentDate()}`
+      pickupObject.url+=`&createdAt>=${currentDate()}`
     }
-  
+   console.log(pickupObject)
     apiRequest(pickupObject,(e)=>{setAppOp({...appOp,load:e})},(e)=>{pendPickSuc(e)},(e)=>pendPickFail(e),(e)=>pickupPayload(e));
     
   }
@@ -139,8 +140,11 @@ export default function History({navigation}) {
 
   const viewParcel=(e)=>{
     btmRef.current.close();
-    setAppOp({...appOp,parcelId:e},parcelRef.current.open());
-    
+    setAppOp({...appOp,parcelId:e},parcelRef.current.open()); 
+  }
+  const viewLocation=()=>{
+    btmRef.current.close();
+    navigation.navigate('Location',{locTo:currentPickup.locationTo,locFrom:currentPickup.locationFrom})
   }
 
  
@@ -175,7 +179,7 @@ export default function History({navigation}) {
         })):<OpComp  name="No Transaction History Found Today!. Swipe To Refresh!" func={()=>console.log("Nothing to Show")}/>}
       </ScrollView>
       {appOp.load&&(<LoaderComp size={20} color={AppColor.third}/>)}
-      <Custombtm e={()=><ViewPickup pickupPayload={currentPickup} viewLocation={()=>navigation.navigate('Location',{locTo:currentPickup.locationTo,locFrom:currentPickup.locationFrom})} viewParcel={(e)=>viewParcel(e)} collectPick={(e)=>pickupAssignment(e)}/>} height={450} btmRef={btmRef} />
+      <Custombtm e={()=><ViewPickup pickupPayload={currentPickup} viewLocation={()=>viewLocation()} viewParcel={(e)=>viewParcel(e)} collectPick={(e)=>pickupAssignment(e)}/>} height={450} btmRef={btmRef} />
       <Custombtm   e={()=><Parcel parcelId={appOp.parcelId}/>} height={Dimensions.get('screen').height} btmRef={parcelRef} cod={false}/>
        <Custombtm e={()=><DateFilter func={(e)=>filterApp(e)}/>} height={Dimensions.get('screen').height/2.5} btmRef={dateFilterRef} cod={true}/>
       

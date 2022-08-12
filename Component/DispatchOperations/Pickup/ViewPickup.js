@@ -103,7 +103,6 @@ export default function ViewPickup({pickupPayload,viewLocation,onPickUpChange,vi
       return <TouchableOpacity key={i} onPress={()=>e.func()} style={style.btnCont}><Text style={style.btnText}>{e.name}</Text></TouchableOpacity>
          })}
      </View>
-    
        </View>
     )
 }

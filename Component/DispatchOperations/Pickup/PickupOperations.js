@@ -104,7 +104,7 @@ export default function PickupOperations({pickup,onChange}){
                         if(e.id===4){
                            // deliveryItems[i].accepted=true;
                             deliveryItems[i].message="Pickup has been delivered wait for customer to confirm";
-                          deliveryItems[i].view=customOperation(()=>console.log("Refresh"),"RERESH"); 
+                          deliveryItems[i].view=customOperation(()=>onChange(),"RERESH"); 
                         setCurrentPosition(3);
                         }
                        
@@ -206,7 +206,7 @@ export default function PickupOperations({pickup,onChange}){
             name:'COLLECTED',
             accepted:null,
             message:'If pickup has been collected, prompt customer to approve',
-            view:<TouchableOpacity onPress={()=>collectCheck()} style={style.txtCont}><Text style={{textAlign:'center',color:'#fff'}}>REFRESH</Text></TouchableOpacity>
+            view:<TouchableOpacity onPress={()=>onChange()} style={style.txtCont}><Text style={{textAlign:'center',color:'#fff'}}>REFRESH</Text></TouchableOpacity>
         },
         {   
             id:3,

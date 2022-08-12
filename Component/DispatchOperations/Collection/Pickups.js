@@ -80,7 +80,7 @@ export default function Pickups({navigation}) {
   const getAssignedPickup=(dateQuery)=>{
     var pickupObject={
       method:'GET',
-      url:`${api.localUrl}${api.assignment}?populate=pmlParcel,pmlParcel.assignment,terminalTo&dispatcher=${appUser.value.id}&type=CT&status=PENDING`,
+      url:`${api.localUrl}${api.assignment}?populate=pmlParcel,pmlParcel.assignment,terminalTo&dispatcher=${appUser.value.id}&type=CT&status!=CONFIRMED`,
        headers:{
          Authorization:' Bearer ' + appAuth.token,
          'Cache-Control': 'no-cache',

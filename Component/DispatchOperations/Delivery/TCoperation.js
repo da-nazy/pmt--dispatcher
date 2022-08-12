@@ -8,6 +8,7 @@ import {api,apiRequest} from '../../WorkerComp/Api';
 import LoaderComp from '../../WorkerComp/LoaderComp';
 const {width,height}=Dimensions.get("window");
 export default function TCoperation({pickup,onChange}){
+  
     const appAuth=useSelector((app)=>app.auth);
 
     
@@ -22,10 +23,10 @@ export default function TCoperation({pickup,onChange}){
       delivered:null,
   })
     
-  const customOperation=(func,name)=>{
+  const customOperation=(name)=>{
     //  console.log(func)
     return(
-      <TouchableOpacity onPress={()=>func()} style={{borderWidth:1,height:28,width:70,justifyContent:'center',borderRadius:2,margin:2,backgroundColor:AppColor.third,borderColor:AppColor.third}}><Text style={{textAlign:'center',color:'#fff'}}>{name}</Text></TouchableOpacity>)
+      <TouchableOpacity onPress={()=>onChange()} style={style.txtCont}><Text style={{textAlign:'center',color:'#fff'}}>{name}</Text></TouchableOpacity>)
   }
 
      const pickUpOpeartion=()=>{
@@ -100,11 +101,11 @@ export default function TCoperation({pickup,onChange}){
                         }
                         if(e.id===4){
                            // deliveryItems[i].accepted=true;
-                            deliveryItems[i].message="Pickup has been delivered wait for customer to confirm";
-                          deliveryItems[i].view=customOperation(()=>console.log("Refresh"),"RERESH"); 
+                        deliveryItems[i].message="Pickup has been delivered wait for customer to confirm";
+                        deliveryItems[i].view=customOperation("RERESH"); 
                         setCurrentPosition(3);
                         }
-                       
+        
                         setData(deliveryItems);
  
                      })
@@ -194,28 +195,28 @@ export default function TCoperation({pickup,onChange}){
             name:'ASSIGNED',
             accepted:null,
             message:'Pickup has been assigned to you?',
-            view:<View style={{flexDirection:'row'}}><TouchableOpacity onPress={()=>performAssignOp("ACCEPT")} style={{borderWidth:1,height:28,width:70,justifyContent:'center',borderRadius:2,margin:2,backgroundColor:AppColor.third,borderColor:AppColor.third}}><Text style={{textAlign:'center',color:'#fff'}}>ACCEPT</Text></TouchableOpacity><TouchableOpacity onPress={()=>performAssignOp("DECLINE")}  style={{borderWidth:1,height:28,width:70,justifyContent:'center',borderRadius:2,margin:2,backgroundColor:AppColor.third,borderColor:AppColor.third}}><Text style={{textAlign:'center',color:'#fff'}}>DECLINE</Text></TouchableOpacity></View>,
+            view:<View style={{flexDirection:'row'}}><TouchableOpacity onPress={()=>performAssignOp("ACCEPT")} style={style.txtCont}><Text style={{textAlign:'center',color:'#fff'}}>ACCEPT</Text></TouchableOpacity><TouchableOpacity onPress={()=>performAssignOp("DECLINE")}  style={{borderWidth:1,height:28,width:70,justifyContent:'center',borderRadius:2,margin:2,backgroundColor:AppColor.third,borderColor:AppColor.third}}><Text style={{textAlign:'center',color:'#fff'}}>DECLINE</Text></TouchableOpacity></View>,
         },
         {  
              id:2,
             name:'COLLECTED',
             accepted:null,
             message:'If pickup has been collected, prompt customer to approve',
-            view:<TouchableOpacity onPress={()=>collectCheck()} style={{borderWidth:1,height:28,width:70,justifyContent:'center',borderRadius:2,margin:2,backgroundColor:AppColor.third,borderColor:AppColor.third}}><Text style={{textAlign:'center',color:'#fff'}}>REFRESH</Text></TouchableOpacity>
+            view:<TouchableOpacity onPress={()=>onChange()} style={style.txtCont}><Text style={{textAlign:'center',color:'#fff'}}>REFRESH</Text></TouchableOpacity>
         },
         {   
             id:3,
             name:'DISPATCHED',
             accepted:null,
             message:'Have you dispateched the collected pickup?',
-            view:<TouchableOpacity onPress={()=>dispatchPickup()} style={{borderWidth:1,height:28,width:70,justifyContent:'center',borderRadius:2,margin:2,backgroundColor:AppColor.third,borderColor:AppColor.third}}><Text style={{textAlign:'center',color:'#fff'}}>YES</Text></TouchableOpacity>
+            view:<TouchableOpacity onPress={()=>dispatchPickup()} style={style.txtCont}><Text style={{textAlign:'center',color:'#fff'}}>YES</Text></TouchableOpacity>
         },
         {
             id:4,
             name:'DELIVERED',
             accepted:null,
             message:'Have you delivered the pickup?',
-            view: <TouchableOpacity onPress={()=>deliverPickup()} style={{borderWidth:1,height:28,width:70,justifyContent:'center',borderRadius:2,margin:2,backgroundColor:AppColor.third,borderColor:AppColor.third}}><Text style={{textAlign:'center',color:'#fff'}}>YES</Text></TouchableOpacity>
+            view: <TouchableOpacity onPress={()=>deliverPickup()} style={style.txtCont}><Text style={{textAlign:'center',color:'#fff'}}>YES</Text></TouchableOpacity>
         }
     ]);
     const[accepted,setAccepted]=useState(null);
@@ -249,8 +250,6 @@ export default function TCoperation({pickup,onChange}){
                 'Cache-Control': 'no-cache',
               }
             }
-    
-            console.log(dispatchObject);
          apiRequest(dispatchObject,(e)=>setLoad(e),(e)=>succFunc(e),(e)=>failFunc(e),(e)=>deliveredPayload(e));
     
         }
@@ -263,15 +262,14 @@ export default function TCoperation({pickup,onChange}){
     }
     const aoPayload=(e)=>{
         onChange();
-        console.log(e);
         if(e.status="ACCEPTED"){
             // PERFORM BTM CLOSE
             // REFRESH PICKUP
+
         }
     }
     const performAssignOp=(e)=>{
         // check DECLINE TO DECLINED, ACCEPTED
-      
      Alert.alert("Assignement",`Are you sure you want to ${e}, this pickup`,[
          {
              text:'Proceed',
@@ -295,7 +293,7 @@ export default function TCoperation({pickup,onChange}){
               'Cache-Control': 'no-cache',
           }
       }
-      console.log(assignObject);
+   
 
   apiRequest(assignObject,(e)=>setLoad(e),(e)=>{aoSucc(e)},(e)=>aoFail(e),(e)=>aoPayload(e));
 
@@ -321,11 +319,11 @@ export default function TCoperation({pickup,onChange}){
 
     
       const collectCheck=()=>{
-        //  console.log(data[0].accepted,data[0].name);
           if(!data[0].accepted&&!data[0].name=="ASSIGNED"){
               Alert.alert("Caution","You haven't accepted the assigned pickup");
           }else{
-            setAppDetails({...appDetails,collected:true})
+           // setAppDetails({...appDetails,collected:true})
+           onChange();
           }
       }
 
@@ -347,7 +345,6 @@ export default function TCoperation({pickup,onChange}){
              setCurrentPosition(2);
          }
       })
-      console.log(data);
      }
 
 const update=(idx)=>{
@@ -412,11 +409,13 @@ useEffect(()=>{
          direction='vertical'
          renderLabel={({position,label,currentPosition,stepStatus})=>{
             return (
-                <View key={position} style={{marginTop:5,width:width-100,marginTop:30}}>
-                    <View style={{flexDirection:'row',justifyContent:"space-between",padding:5}}><Text style={{fontSize:15,fontWeight:'700'}}>{data[position].name}</Text><View style={{width:20,height:20,borderWidth:1,borderRadius:10,justifyContent:'center',borderColor:AppColor.third}}><IconComp name={data[position].accepted?'check':'question'} size={10} style={{textAlign:'center'}}/></View></View>
-                    <Text style={{padding:5}}>{data[position].message}</Text>
+                    <View key={position} style={{marginTop:5,width:width-100,marginTop:30}}>
+                    <View style={{flexDirection:'row',justifyContent:"space-between",padding:5}}><Text style={{fontSize:15,fontWeight:'700'}}>{data[position].name}</Text>
+                    <View style={{width:20,height:20,borderWidth:1,borderRadius:10,justifyContent:'center',borderColor:AppColor.third}}>
+                    <IconComp name={data[position].accepted?'check':'question'} size={10} style={{textAlign:'center',color:'#000'}}/></View></View>
+                    <Text style={{padding:5,color:'#000'}}>{data[position].message}</Text>
                     {data[position].view}
-                </View>
+                    </View>
             )
          }}
     />
@@ -426,6 +425,16 @@ useEffect(()=>{
 }
 
 const style=StyleSheet.create({
+    txtCont:{
+        borderWidth:1,
+        height:28,
+        width:70,
+        justifyContent:'center',
+        borderRadius:2,
+        margin:2,
+        backgroundColor:AppColor.third,
+        borderColor:AppColor.third
+    },
     container:{
      height:height-100,
      width:width-50,

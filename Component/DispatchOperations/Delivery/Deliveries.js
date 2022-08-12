@@ -76,7 +76,7 @@ export default function Deliveries({navigation}) {
   const getAssignedPickup=(dateQuery)=>{
     var pickupObject={
       method:'GET',
-      url:`${api.localUrl}${api.assignment}?populate=pmlParcel&dispatcher=${appUser.id}&type=TC&status=PENDING`,
+      url:`${api.localUrl}${api.assignment}?populate=pmlParcel&dispatcher=${appUser.id}&type=TC&status!=CONFIRMED`,
        headers:{
          Authorization:' Bearer ' + appAuth.token,
          'Cache-Control': 'no-cache',
@@ -185,7 +185,7 @@ export default function Deliveries({navigation}) {
       <Custombtm e={()=><ViewPickup pickupPayload={currentPickup} viewLocation={()=>navigation.navigate('Location',{locTo:currentPickup.locationTo,locFrom:currentPickup.locationFrom})} viewParcel={(e)=>viewParcel(e)} collectPick={(e)=>pickupAssignment(e)}/>} height={450} btmRef={btmRef} />
       <Custombtm   e={()=><Parcel parcelId={appOp.parcelId}/>} height={Dimensions.get('screen').height} btmRef={parcelRef} cod={false}/>
        <Custombtm e={()=><DateFilter func={(e)=>filterApp(e)}/>} height={Dimensions.get('screen').height/2.5} btmRef={dateFilterRef} cod={true}/>
-       <Custombtm e={()=><TCoperation pickup={appOp.pickupObject}/>} height={Dimensions.get('screen').height} btmRef={pickRef} cod={true}/>
+       <Custombtm e={()=><TCoperation pickup={appOp.pickupObject} onChange={()=>onOpehange()}/>} height={Dimensions.get('screen').height} btmRef={pickRef} cod={true} />
     
     </View>
   );

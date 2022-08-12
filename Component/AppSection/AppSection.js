@@ -78,7 +78,7 @@ export default function AppSection({navigation,route}){
   const updateLocation=()=>{
     var locationObject={
       method:'put',
-      url:`https://sandbox.pmt.ng/${api.currentLocation}/${appUser.id}`,
+      url:`${api.localUrl}/${api.currentLocation}/${appUser.id}`,
       headers:{
           Authorization:' Bearer ' + appAuth.token,
           'Cache-Control': 'no-cache',

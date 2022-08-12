@@ -62,9 +62,7 @@ export default function Parcel({ parcelId }) {
         {parcelDetails("Name", parcelId.name)}
         {parcelDetails("Quantity",parcelId.quantity.toString())}
         {parcelDetails("Volume", parcelId.volume.toString())}
-        {parcelDetails("worth", parcelId.worth.toString())}
-
-       
+        {parcelDetails("worth", parcelId.worth.toString())} 
       </ScrollView>
     );
   };
@@ -73,7 +71,6 @@ export default function Parcel({ parcelId }) {
   return (
     <ScrollView style={{ backgroundColor: "#fff" }}>
     {parcelDescrition()}
-
     </ScrollView>
   );
 }
