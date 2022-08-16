@@ -64,11 +64,12 @@ export default function PickDrop({navigation}) {
   const pickupPayload=(e)=>{
     console.log(e.length,"danny");
     if(e.length>0){
-      console.log(e)
+       console.log(e)
       var a=e;
       a.map((d,i)=>{
        d.status==="CONFIRMED"&&delete a[i];
       })
+      
 
       setPendingPickup(a);
     
@@ -86,7 +87,7 @@ export default function PickDrop({navigation}) {
   const getAssignedPickup=(dateQuery)=>{
     var pickupObject={
       method:'GET',
-      url:`${api.localUrl}${api.assignment}?populate=pmlParcel&dispatcher=${appUser.id}&type=CC`,
+      url:`${api.localUrl}${api.assignment}?populate=pmlParcel&dispatcher=${appUser.id}&type=CC&status!=CONFIRMED`,
        headers:{
          Authorization:' Bearer ' + appAuth.token,
          'Cache-Control': 'no-cache',
@@ -181,7 +182,7 @@ export default function PickDrop({navigation}) {
             />}
       >
         
-        {pendingPickup>0?(pendingPickup.map((e,i)=>{
+        {pendingPickup?(pendingPickup.map((e,i)=>{
           return(
             <OpComp key={i}
             catIcon="boxes"

@@ -50,7 +50,7 @@ export default function TCoperation({pickup,onChange}){
                    }
                    if(e.id===2){
                     collectItems[i].accepted=true;
-                    collectItems[i].message="Customer has confirmed pickup collection";
+                    collectItems[i].message="Dispatcher has confirmed pickup collection";
                     delete collectItems[i].view;
                    }
                    setCurrentPosition(2);
