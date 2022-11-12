@@ -89,7 +89,7 @@ export default function Pickups({navigation}) {
     if(dateQuery){
       pickupObject.url+=`&${dateQuery}`;
      }else{
-      pickupObject.url+=`&createdAt>=${currentDate()}`
+     // pickupObject.url+=`&createdAt>=${currentDate()}`
      }
 
     apiRequest(pickupObject,(e)=>{setAppOp({...appOp,load:e})},(e)=>{pendPickSuc(e)},(e)=>pendPickFail(e),(e)=>pickupPayload(e));
@@ -117,7 +117,7 @@ export default function Pickups({navigation}) {
 
   const onRefresh=useCallback(()=>{
       setAppOp({...appOp,load:true});
-      console.log("onrefreshing");
+      console.log("refreshing");
        getAssignedPickup();
       //Action to perform goes here
       wait(200).then(()=>setAppOp({...appOp,load:false}))
@@ -139,7 +139,7 @@ export default function Pickups({navigation}) {
           onPress: () => console.log('Accept Pickup'),
           style: 'cancel',
         },
-        {text: 'Decline', onPress: () => console.log('Delined Pickup')},
+        {text: 'Decline', onPress: () => console.log('Declined Pickup')},
       ],
       {cancelable: false},
      );

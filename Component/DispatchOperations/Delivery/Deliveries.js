@@ -30,6 +30,8 @@ export default function Deliveries({navigation}) {
   const appAuth=useSelector((app)=>app.auth);
   const appUser=useSelector((app)=>app.user.value);
 
+  const [page,setPage]=useState('0');
+  const [totalPageItems,setTotalPageItems]=useState('');
    const btmRef=useRef(null); 
    const parcelRef=useRef(null);
    const dateFilterRef=useRef(null);
@@ -85,7 +87,7 @@ export default function Deliveries({navigation}) {
     if(dateQuery){
       pickupObject.url+=`&${dateQuery}`;
      }else{
-       pickupObject.url+=`&createdAt>=${currentDate()}`
+      // pickupObject.url+=`&createdAt>=${currentDate()}`
      }
 
     apiRequest(pickupObject,(e)=>{setAppOp({...appOp,load:e})},(e)=>{pendPickSuc(e)},(e)=>pendPickFail(e),(e)=>pickupPayload(e));

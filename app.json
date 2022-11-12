@@ -1,8 +1,8 @@
 {
-  "name": "pmtldispatcher",
+  "name": "pmtdispatcher",
   "displayName": "PMT Dispatcher",
   "android": {
-    "package": "com.pmtldispatcher",
+    "package": "com.pmtdispatcher",
     "config": {
       "googleMaps": {
         "apiKey": "AIzaSyDqgx6vJ32-zftpVRgo7p2lfKsoAT9QO1s"

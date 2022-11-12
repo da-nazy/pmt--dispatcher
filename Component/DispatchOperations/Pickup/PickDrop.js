@@ -96,9 +96,9 @@ export default function PickDrop({navigation}) {
      if(dateQuery){
       pickupObject.url+=`&${dateQuery}`;
      }else{
-      pickupObject.url+=`&createdAt>=${currentDate()}`
+     // pickupObject.url+=`&createdAt>=${currentDate()}`
     }
-     console.log(pickupObject);
+     
    apiRequest(pickupObject,(e)=>{setAppOp({...appOp,load:e})},(e)=>{pendPickSuc(e)},(e)=>pendPickFail(e),(e)=>pickupPayload(e));
     
   }
@@ -125,7 +125,7 @@ export default function PickDrop({navigation}) {
 
   const onRefresh=useCallback(()=>{
       setAppOp({...appOp,load:true});
-      console.log("onrefreshing");
+      console.log("refreshing");
        getAssignedPickup();
      
       //Action to perform goes here
@@ -148,7 +148,7 @@ export default function PickDrop({navigation}) {
           onPress: () => console.log('Accept Pickup'),
           style: 'cancel',
         },
-        {text: 'Decline', onPress: () => console.log('Delined Pickup')},
+        {text: 'Decline', onPress: () => console.log('Declined Pickup')},
       ],
       {cancelable: false},
      );
@@ -187,7 +187,7 @@ export default function PickDrop({navigation}) {
             <OpComp key={i}
             catIcon="boxes"
             subIcon="clock"
-            name={e.pmlParcel.description}
+            name={e?.pmlParcel?.description}
             func={() => openPickup(e)}
             pickOp={()=>openPickOp(e)}
           />

@@ -1,4 +1,4 @@
-package com.pmtldispatcher.newarchitecture;
+package com.pmtdispatcher.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.pmtldispatcher.BuildConfig;
-import com.pmtldispatcher.newarchitecture.components.MainComponentsRegistry;
-import com.pmtldispatcher.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.pmtdispatcher.BuildConfig;
+import com.pmtdispatcher.newarchitecture.components.MainComponentsRegistry;
+import com.pmtdispatcher.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

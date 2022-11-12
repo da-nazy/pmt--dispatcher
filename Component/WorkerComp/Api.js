@@ -80,7 +80,7 @@ export const api={
     localUrl:RemoteUrl,
     mapKey:GoogleKey,
     appVersion:'api/erp/settings/version/PML_DISPATCHER',
-    versionKey:'1.12',
+    versionKey:'1.13',
     playstorelink:'https://play.google.com/store/apps/details?id=com.pmtdispatcher',
 }
 
@@ -98,9 +98,14 @@ export const apiRequest=(requestObject,load,succFunc,errorFun,getPayload)=>{
           if(response.data.success){
               // check the response data payload is not null
               succFunc(response.data.message);
-              if(response.data.payload.lenght!=0){
+              if(response.data.payload.length!=0){
                   // payload isn't null
                   //console.log(response.data.payload);
+                  //TODO: send only response.data
+                  //TODO: correct all places that will break
+                  //TODO: fix the paginations
+                  //TODO: work on login issues
+                  //TODO: work on otp flow
                   getPayload(response.data.payload);
               }
              // console.log(response.data.message);

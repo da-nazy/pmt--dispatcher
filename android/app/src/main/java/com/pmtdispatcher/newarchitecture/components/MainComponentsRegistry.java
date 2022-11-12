@@ -1,4 +1,4 @@
-package com.pmtldispatcher.newarchitecture.components;
+package com.pmtdispatcher.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
