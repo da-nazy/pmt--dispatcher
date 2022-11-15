@@ -89,43 +89,65 @@ export const api={
  // Generic request call 
 
 export const apiRequest=(requestObject,load,succFunc,errorFun,getPayload)=>{
-     
+     console.log(requestObject)
     load(true);
     axios(
         requestObject
       ).then(function (response){
           load(false);
-          if(response.data.success){
-              // check the response data payload is not null
-              succFunc(response.data.message);
-              if(response.data.payload.length!=0){
-                  // payload isn't null
-                  //console.log(response.data.payload);
-                  //TODO: send only response.data
-                  //TODO: correct all places that will break
-                  //TODO: fix the paginations
-                  //TODO: work on login issues
-                  //TODO: work on otp flow
-                  getPayload(response.data.payload);
-              }
-             // console.log(response.data.message);
+          if(typeof response!=='undefined'){
+            
+            succFunc(response.data.message);
+            getPayload(response.data.payload);
+          }else{
+            return;
           }
+          
        //   console.log(response);
       }).catch(function (error){
           load(false);
+    
          // errorFun(error.response.data.message);
          // console.log(error.response.data);
          // typeof keyword is used to check the datatype
-
          if(typeof error.response!=='undefined'){
-            
             if(error.response.data.message){
                 errorFun(error.response.data.message);
-            }
-           // console.log(error.response);
+             }else{
+ 
+                errorFun(error.response);
+             }
+           
          }else{
-             errorFun(error);
+           
+            return;
+           
          }
+
+         
+        
+     
+      });
+}
+
+export const getUserProfile=(requestObject,load,succFunc,errorFun,getPayload)=>{
+  
+    load(true);
+    axios(
+        requestObject
+      ).then(function (response){
+          load(false);
+          let msg=response.data.message;
+          succFunc(msg?msg:'No message');
+          let appData=response.data.payload;
+           getPayload(appData);
+          console.log('response')
+       //   console.log(response);
+      }).catch(function (error){
+          load(false);
+          console.log(error.response.data)
+          //errorFun("Error found")
+          errorFun('error');
           // console.log(error);
         
      

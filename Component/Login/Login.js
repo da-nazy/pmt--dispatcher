@@ -35,8 +35,6 @@ export default function Login({ navigation }) {
   
   const [appOp, setAppOp] = useState({
     load: false,
-    token: "",
-    userid: "",
   });
 
   const pwdAlert = (e, m) => {
@@ -73,7 +71,6 @@ export default function Login({ navigation }) {
   };
   const userProfilePayload = (e) => {
     dispatch(setProfile(e));
-    setAppOp({ ...appOp, userid: e.id });
   };
   const userProfileSuc = (e) => {
     // console.log(e);
@@ -137,7 +134,6 @@ export default function Login({ navigation }) {
 
     if (e.token) {
       getUser(e.token);
-      setAppOp({ ...appOp, token: e.token });
     }
   };
 
@@ -209,7 +205,7 @@ export default function Login({ navigation }) {
       // loginObject[type]=user.emailPhone;
 
       loginObject.data[type] = user.emailPhone;
-      console.log(loginObject);
+  
       apiRequest(
         loginObject,
         (e) => {

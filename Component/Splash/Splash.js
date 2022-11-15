@@ -9,7 +9,7 @@ import LoaderComp from '../WorkerComp/LoaderComp';
 import { AppColor } from '../WorkerComp/AppColor';
 import {StackActions} from '@react-navigation/native';
 import {getToken} from '../WorkerComp/ExternalFunctions';
-import {api,apiRequest,symbols} from '../WorkerComp/Api';
+import {api,apiRequest,symbols,getUserProfile} from '../WorkerComp/Api';
 import { setUser } from '../Store/Reducers/user';
 import { setAuth } from '../Store/Reducers/auth';
 
@@ -34,13 +34,19 @@ export default function Splash({navigation}){
      const userProfileFail=(e)=>{
        navigation.dispatch(StackActions.replace('Login'));
      }
+     const appVersionFail=(e)=>{
+      navigation.dispatch(StackActions.replace('Login'));
+     }
+     const versionSucc=(e)=>{
+      console.log(e);
+     }
 
       const appVersionPayload=(e)=>{
        if(e){
          if(e.value!==api.versionKey){
            navigation.dispatch(StackActions.replace('Upgrade',{payload:e}))
          }else{
-           checkAppToken()
+           checkAppToken();
          }
        }
        // perform app logic here
@@ -48,28 +54,44 @@ export default function Splash({navigation}){
 
      const userProfilePayload=(e)=>{
      
-       if(Array.isArray(e.payload)&&e.payload.length===0){
+       if(e){
+     
+       
         dispatch(setUser(e));
-        navigation.dispatch(StackActions.replace('Login',{goto:null}))
-
+        navigation.dispatch(StackActions.replace('AppSection',{goto:null}));
        }else{
-         dispatch(setAuth({token:appOp.token,auth:true}));
-         dispatch(setUser(e));
-         navigation.dispatch(StackActions.replace('AppSection',{goto:null}))
+        dispatch(setUser(e));
+        navigation.dispatch(StackActions.replace('Login',{goto:null}));
        }
      }
 
     const getProfile=(token)=>{
+   
       var userObject={
         method:'get',
         url:`${api.localUrl}${api.userProfile}`,
             headers:{
-                Authorization:' Bearer ' + token,
-                'Cache-Control': 'no-cache',
-                Pragma: 'no-cache',
+                Authorization: " Bearer "+ token,
+          
               }
     }
-   apiRequest(userObject,(e)=>{setAppOp({...appOp,load:e})},(e)=>{userProfileSuc(e)},(e)=>{userProfileFail(e)},(e)=>{userProfilePayload(e)});
+   
+    
+    apiRequest(
+      userObject,
+      (e) => {
+        setAppOp({ ...appOp, load: e });
+      },
+      (e) => {
+        userProfileSuc(e);
+      },
+      (e) => {
+        userProfileFail(e);
+      },
+      (e) => {
+        userProfilePayload(e);
+      }
+    );
     }
 
     const checkAppVersion=()=>{
@@ -81,16 +103,20 @@ export default function Splash({navigation}){
               Pragma: 'no-cache',
             }
         }
-        apiRequest(checkObject,(e)=>{setAppOp({...appOp,load:e})},(e)=>{userProfileSuc(e)},(e)=>{userProfileFail(e)},(e)=>{appVersionPayload(e)})
+      
+    apiRequest(checkObject,(e)=>{setAppOp({...appOp,load:e})},(e)=>{versionSucc(e)},(e)=>{appVersionFail(e)},(e)=>{appVersionPayload(e)})
   
     }
 
     const checkAppToken=()=>{
+       
       getToken('token').then((appToken)=>{
         if(appToken){
         dispatch(setAuth({token:appToken,auth:true}));
-        getProfile(appToken);
+        
+       getProfile(appToken);
         }else{
+          console.log('Token not found!');
           navigation.dispatch(StackActions.replace('Login'));
         }
       }).error((error)=>
